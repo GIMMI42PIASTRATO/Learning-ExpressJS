@@ -18,9 +18,31 @@ app.get("/", (req, res) => {
 	res.render("index");
 });
 
+app.get("/:uniqueID", (req, res) => {
+	const result = req.params.uniqueID;
+	console.log(result);
+});
+
 app.post("/shrink", (req, res) => {
-	const longURL = req.body.url;
+	var longURL = req.body.url;
 	const uniqueID = nanoid(7);
-	console.log(uniqueID);
-	res.redirect("/");
+	const urlRegex = new RegExp(
+		"^(http|https)://[a-zA-Z0-9-.]+.[a-zA-Z]{2,}(/S*)?$"
+	);
+	const httpsRegex = new RegExp("^https://");
+
+	// check if the url contains https://, if not it adds it to the begginning of the url
+	if (!httpsRegex.test(longURL)) {
+		longURL = "https://" + longURL;
+	}
+
+	if (urlRegex.test(longURL)) {
+		writeNewURL(longURL, uniqueID)
+			.then((result) => console.log(result))
+			.catch((err) => console.log(err));
+
+		res.redirect("/");
+	} else {
+		res.redirect("/");
+	}
 });
