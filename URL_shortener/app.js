@@ -20,8 +20,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/:uniqueID", (req, res) => {
-	const result = req.params.uniqueID;
-	console.log(result);
+	const uniqueID = req.params.uniqueID;
 });
 
 app.post("/shrink", async (req, res) => {
@@ -39,7 +38,7 @@ app.post("/shrink", async (req, res) => {
 
 	if (urlRegex.test(longURL)) {
 		shortURL = "http://localhost:3000/" + uniqueID;
-		writeNewURL(longURL, shortURL)
+		writeNewURL(longURL, shortURL, uniqueID)
 			.then((result) => console.log(result))
 			.catch((err) => console.log(err));
 
