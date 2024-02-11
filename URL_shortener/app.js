@@ -38,11 +38,13 @@ app.post("/shrink", async (req, res) => {
 	}
 
 	if (urlRegex.test(longURL)) {
-		writeNewURL(longURL, uniqueID)
+		shortURL = "http://localhost:3000/" + uniqueID;
+		writeNewURL(longURL, shortURL)
 			.then((result) => console.log(result))
 			.catch((err) => console.log(err));
 
 		const URLS = await getURLS();
+		console.log(URLS);
 		res.render("index", { data: { URLS: URLS, success: true } });
 	} else {
 		const URLS = await getURLS();

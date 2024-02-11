@@ -24,19 +24,23 @@
 					id="url-input"
 				/>
 				<input type="submit" class="btn btn-primary" />
+
 				<% if (data.errURL) { %>
 				<div class="container mt-5">
 					<div class="alert alert-danger" role="alert">
 						<%= data.errURL %> is not a valid URL
 					</div>
 				</div>
+
 				<% } else if (data.success) { %>
 				<div class="container mt-5">
 					<div class="alert alert-success" role="alert">
-						Shortened link: <%= data.URLS[-1] %>
+						Shortened link: <%= data.URLS[data.URLS.length -
+						1].short_url%>
 					</div>
 				</div>
 				<% } %>
+
 				<table class="table table-striped table-responsive mt-4">
 					<tr>
 						<td>Full URL</td>
