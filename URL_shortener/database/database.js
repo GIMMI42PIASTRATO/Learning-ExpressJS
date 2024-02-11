@@ -10,13 +10,15 @@ const pool = mysql
 	.promise();
 
 async function getURLS() {
-	const result = await pool.query("SELECT * FROM url");
+	const [result] = await pool.query("SELECT * FROM url");
 	return result;
 }
 
 async function getURL(id) {
-	const result = await pool.query("SELECT * FROM url WHERE id_url = ?", [id]);
-	return result;
+	const [result] = await pool.query("SELECT * FROM url WHERE id_url = ?", [
+		id,
+	]);
+	return result[0];
 }
 
 // URL: the full url

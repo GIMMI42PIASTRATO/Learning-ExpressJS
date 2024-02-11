@@ -14,8 +14,9 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("views"));
 
-app.get("/", (req, res) => {
-	res.render("index");
+app.get("/", async (req, res) => {
+	const URLS = await getURLS();
+	res.render("index", { data: { URLS: URLS } });
 });
 
 app.get("/:uniqueID", (req, res) => {
@@ -23,7 +24,7 @@ app.get("/:uniqueID", (req, res) => {
 	console.log(result);
 });
 
-app.post("/shrink", (req, res) => {
+app.post("/shrink", async (req, res) => {
 	var longURL = req.body.url;
 	const uniqueID = nanoid(7);
 	const urlRegex = new RegExp(
@@ -41,8 +42,12 @@ app.post("/shrink", (req, res) => {
 			.then((result) => console.log(result))
 			.catch((err) => console.log(err));
 
-		res.redirect("/");
+		const URLS = await getURLS();
+		res.render("index", { data: { URLS: URLS, success: true } });
 	} else {
-		res.redirect("/");
+		const URLS = await getURLS();
+		res.render("index", {
+			data: { URLS: URLS, errURL: longURL },
+		});
 	}
 });
