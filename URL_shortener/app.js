@@ -1,7 +1,11 @@
 const express = require("express");
 const path = require("path");
 const { nanoid } = require("nanoid");
-const { getURLS, getURL, writeNewURL } = require("./database/database.js");
+const {
+	getURLS,
+	writeNewURL,
+	getUrlByUniqueId,
+} = require("./database/database.js");
 
 const app = express();
 
@@ -19,8 +23,14 @@ app.get("/", async (req, res) => {
 	res.render("index", { data: { URLS: URLS } });
 });
 
-app.get("/:uniqueID", (req, res) => {
+app.get("/:uniqueID", async (req, res) => {
 	const uniqueID = req.params.uniqueID;
+	const result = await getUrlByUniqueId(uniqueID);
+	if (result) {
+		res.redirect(result.long_url);
+	} else {
+		res.sendStatus(404);
+	}
 });
 
 app.post("/shrink", async (req, res) => {

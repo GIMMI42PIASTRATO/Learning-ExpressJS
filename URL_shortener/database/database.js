@@ -28,6 +28,7 @@ async function getUrlByUniqueId(uniqueID) {
 		"SELECT * FROM url WHERE unique_url_id = ?",
 		[uniqueID]
 	);
+	return result[0];
 }
 
 // URL: the full url
@@ -47,4 +48,5 @@ module.exports = {
 	getURLS,
 	getURL,
 	writeNewURL,
+	getUrlByUniqueId,
 };
