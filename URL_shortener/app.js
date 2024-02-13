@@ -5,6 +5,7 @@ const {
 	getURLS,
 	writeNewURL,
 	getUrlByUniqueId,
+	updateData,
 } = require("./database/database.js");
 
 const app = express();
@@ -27,6 +28,13 @@ app.get("/:uniqueID", async (req, res) => {
 	const uniqueID = req.params.uniqueID;
 	const result = await getUrlByUniqueId(uniqueID);
 	if (result) {
+		updateData(
+			"url",
+			"clicked",
+			result.clicked + 1,
+			"id_url",
+			result.id_url
+		);
 		res.redirect(result.long_url);
 	} else {
 		res.sendStatus(404);

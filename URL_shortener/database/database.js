@@ -44,9 +44,20 @@ async function writeNewURL(url, shortURL, uniqueID) {
 	return result;
 }
 
+async function updateData(table, setColumn, newData, whereColumn, dataToCheck) {
+	const result = await pool.query(
+		`UPDATE ??
+		SET ?? = ?
+		WHERE ?? = ?`,
+		[table, setColumn, newData, whereColumn, dataToCheck]
+	);
+	return result;
+}
+
 module.exports = {
 	getURLS,
 	getURL,
 	writeNewURL,
 	getUrlByUniqueId,
+	updateData,
 };
